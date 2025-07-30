@@ -4,7 +4,7 @@
   "documentation" : { },
   "id" : 1,
   "lastModifiedAgent" : "structurizr-ui",
-  "lastModifiedDate" : "2025-07-30T17:43:43Z",
+  "lastModifiedDate" : "2025-07-30T19:43:35Z",
   "model" : {
     "people" : [ {
       "id" : "1",
@@ -15,76 +15,153 @@
       },
       "relationships" : [ {
         "description" : "Esegue operazioni usando",
-        "destinationId" : "7",
-        "id" : "10",
-        "sourceId" : "1",
-        "tags" : "Relationship"
-      }, {
-        "description" : "Visualizza i dati del budget usando",
-        "destinationId" : "4",
+        "destinationId" : "11",
         "id" : "13",
         "sourceId" : "1",
         "tags" : "Relationship"
       }, {
-        "description" : "Visualizza i dati del budget usando",
-        "destinationId" : "2",
+        "description" : "Visualizza dashboard di budgeting usando",
+        "destinationId" : "4",
         "id" : "14",
-        "linkedRelationshipId" : "13",
+        "sourceId" : "1",
+        "tags" : "Relationship"
+      }, {
+        "description" : "Visualizza dashboard di budgeting usando",
+        "destinationId" : "2",
+        "id" : "15",
+        "linkedRelationshipId" : "14",
         "sourceId" : "1"
       } ],
       "tags" : "Element,Person"
     } ],
     "softwareSystems" : [ {
       "containers" : [ {
-        "description" : "Database per la gestione dei dati del budget",
+        "description" : "Database per la gestione dei dati di budgeting e delle spese",
         "documentation" : { },
         "id" : "3",
         "name" : "Budgeting Database",
         "properties" : {
-          "structurizr.dsl.identifier" : "budgeting.budgetingdb"
+          "structurizr.dsl.identifier" : "budgeting.buddb"
         },
         "tags" : "Element,Container,Database",
         "technology" : "PostgreSQL"
       }, {
-        "description" : "Dashboard per la visualizzazione e gestione del budget",
+        "description" : "Dashboard per la visualizzazione dei dati delle spese e del budget",
         "documentation" : { },
         "id" : "4",
-        "name" : "Dashboard Finanza",
+        "name" : "Budgeting Dashboard",
         "properties" : {
-          "structurizr.dsl.identifier" : "budgeting.budgetingdashboard"
+          "structurizr.dsl.identifier" : "budgeting.buddashboard"
         },
         "relationships" : [ {
-          "description" : "Mostra i dati usando",
+          "description" : "Legge i dati di budgeting da",
           "destinationId" : "3",
-          "id" : "12",
+          "id" : "16",
+          "sourceId" : "4",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Scrive e legge i dati di Metabase da",
+          "destinationId" : "3",
+          "id" : "17",
           "sourceId" : "4",
           "tags" : "Relationship"
         } ],
-        "tags" : "Element,Container,Dashboard",
-        "technology" : "Metabase"
+        "tags" : "Element,Container"
+      }, {
+        "description" : "Motore di reportistica per generare report e analisi sui dati di budgeting",
+        "documentation" : { },
+        "id" : "5",
+        "name" : "Budgeting Reporting Engine",
+        "properties" : {
+          "structurizr.dsl.identifier" : "budgeting.budreportingengine"
+        },
+        "relationships" : [ {
+          "description" : "Legge i dati di budgeting da",
+          "destinationId" : "3",
+          "id" : "18",
+          "sourceId" : "5",
+          "tags" : "Relationship"
+        }, {
+          "description" : "Invia report via e-mail usando",
+          "destinationId" : "10",
+          "id" : "19",
+          "sourceId" : "5",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Component",
+        "technology" : "Python Flask"
+      }, {
+        "description" : "Server MCP per la gestione delle interazioni con il modello LLM",
+        "documentation" : { },
+        "id" : "6",
+        "name" : "Budgeting MCP",
+        "properties" : {
+          "structurizr.dsl.identifier" : "budgeting.budmcp"
+        },
+        "relationships" : [ {
+          "description" : "Scrive i dati su e legge i dati da",
+          "destinationId" : "3",
+          "id" : "21",
+          "sourceId" : "6",
+          "tags" : "Relationship"
+        } ],
+        "tags" : "Element,Container,Component",
+        "technology" : "Python MCP SDK"
       } ],
-      "description" : "Gestione del budget personale",
+      "description" : "Gestione della parte finanziaria di LifeSH",
       "documentation" : { },
       "group" : "Life SH",
       "id" : "2",
       "location" : "Unspecified",
-      "name" : "Budgeting System",
+      "name" : "Budgeting",
       "properties" : {
         "structurizr.dsl.identifier" : "budgeting"
       },
       "relationships" : [ {
-        "description" : "Invia report e notifiche usando",
-        "destinationId" : "5",
-        "id" : "9",
-        "sourceId" : "2",
-        "tags" : "Relationship"
+        "description" : "Invia report via e-mail usando",
+        "destinationId" : "10",
+        "id" : "20",
+        "linkedRelationshipId" : "19",
+        "sourceId" : "2"
       } ],
+      "tags" : "Element,Software System"
+    }, {
+      "containers" : [ {
+        "description" : "Gestore delle interazioni con l'utente tramite Telegram",
+        "documentation" : { },
+        "id" : "8",
+        "name" : "Telegram Bot",
+        "properties" : {
+          "structurizr.dsl.identifier" : "userinteractioncontroller.telegrambot"
+        },
+        "tags" : "Element,Container,Telegram Bot",
+        "technology" : "Python Telegram Bot SDK"
+      }, {
+        "description" : "Modello LLM per l'elaborazione del linguaggio naturale",
+        "documentation" : { },
+        "id" : "9",
+        "name" : "LLM",
+        "properties" : {
+          "structurizr.dsl.identifier" : "userinteractioncontroller.llm"
+        },
+        "tags" : "Element,Container,Component",
+        "technology" : "SmolLM1.7B"
+      } ],
+      "description" : "Gestione delle varie interazioni dell'utente",
+      "documentation" : { },
+      "group" : "Life SH",
+      "id" : "7",
+      "location" : "Unspecified",
+      "name" : "Interaction Controller",
+      "properties" : {
+        "structurizr.dsl.identifier" : "userinteractioncontroller"
+      },
       "tags" : "Element,Software System"
     }, {
       "description" : "Gestore di posta elettronica",
       "documentation" : { },
       "group" : "Life SH",
-      "id" : "5",
+      "id" : "10",
       "location" : "Unspecified",
       "name" : "E-mail System",
       "properties" : {
@@ -93,63 +170,32 @@
       "relationships" : [ {
         "description" : "Invia e-mail a",
         "destinationId" : "1",
-        "id" : "8",
-        "sourceId" : "5",
+        "id" : "12",
+        "sourceId" : "10",
         "tags" : "Relationship"
       } ],
       "tags" : "Element,Software System,Existing System"
     }, {
-      "description" : "Permette all'utente di interfacciarsi con LifeSH",
-      "documentation" : { },
-      "group" : "Life SH",
-      "id" : "6",
-      "location" : "Unspecified",
-      "name" : "Telegram Bot",
-      "properties" : {
-        "structurizr.dsl.identifier" : "telegrambot"
-      },
-      "relationships" : [ {
-        "description" : "Inserisce nuove transazioni e setta budget in",
-        "destinationId" : "3",
-        "id" : "15",
-        "sourceId" : "6",
-        "tags" : "Relationship"
-      }, {
-        "description" : "Inserisce nuove transazioni e setta budget in",
-        "destinationId" : "2",
-        "id" : "16",
-        "linkedRelationshipId" : "15",
-        "sourceId" : "6"
-      } ],
-      "tags" : "Element,Software System"
-    }, {
       "description" : "Interfaccia utente di Telegram",
       "documentation" : { },
       "group" : "Life SH",
-      "id" : "7",
+      "id" : "11",
       "location" : "Unspecified",
       "name" : "Telegram App",
       "properties" : {
         "structurizr.dsl.identifier" : "telegramui"
       },
-      "relationships" : [ {
-        "description" : "Interagisce con",
-        "destinationId" : "6",
-        "id" : "11",
-        "sourceId" : "7",
-        "tags" : "Relationship"
-      } ],
       "tags" : "Element,Software System,Telegram Client"
     } ]
   },
   "name" : "Life SH",
   "properties" : {
-    "structurizr.dsl" : "d29ya3NwYWNlICJMaWZlIFNIIiAiQWxsIHRoZSB0b29scyB0byBlbXBvd2VyIHlvdXIgbGlmZSBpbiBvbmUgcGxhY2UuIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJVdGVudGUiCgogICAgICAgIGxpZmVTaCA9IGdyb3VwICJMaWZlIFNIInsKICAgICAgICAgICAgYnVkZ2V0aW5nID0gc29mdHdhcmVTeXN0ZW0gIkJ1ZGdldGluZyBTeXN0ZW0iICJHZXN0aW9uZSBkZWwgYnVkZ2V0IHBlcnNvbmFsZSIgewogICAgICAgICAgICAgICAgYnVkZ2V0aW5nRGIgPSBjb250YWluZXIgIkJ1ZGdldGluZyBEYXRhYmFzZSIgIkRhdGFiYXNlIHBlciBsYSBnZXN0aW9uZSBkZWkgZGF0aSBkZWwgYnVkZ2V0IiAiUG9zdGdyZVNRTCIgIkRhdGFiYXNlIgogICAgICAgICAgICAgICAgYnVkZ2V0aW5nRGFzaGJvYXJkID0gY29udGFpbmVyICJEYXNoYm9hcmQgRmluYW56YSIgIkRhc2hib2FyZCBwZXIgbGEgdmlzdWFsaXp6YXppb25lIGUgZ2VzdGlvbmUgZGVsIGJ1ZGdldCIgIk1ldGFiYXNlIiAiRGFzaGJvYXJkIgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVtYWlsID0gc29mdHdhcmVzeXN0ZW0gIkUtbWFpbCBTeXN0ZW0iICJHZXN0b3JlIGRpIHBvc3RhIGVsZXR0cm9uaWNhIiAiRXhpc3RpbmcgU3lzdGVtIgogICAgICAgICAgICB0ZWxlZ3JhbUJvdCA9IHNvZnR3YXJlU3lzdGVtICJUZWxlZ3JhbSBCb3QiICJQZXJtZXR0ZSBhbGwndXRlbnRlIGRpIGludGVyZmFjY2lhcnNpIGNvbiBMaWZlU0giCiAgICAgICAgICAgIHRlbGVncmFtVWkgPSBzb2Z0d2FyZVN5c3RlbSAiVGVsZWdyYW0gQXBwIiAiSW50ZXJmYWNjaWEgdXRlbnRlIGRpIFRlbGVncmFtIiAiVGVsZWdyYW0gQ2xpZW50IgogICAgICAgIH0KCiAgICAgICAgZW1haWwgLT4gdXNlciAiSW52aWEgZS1tYWlsIGEiCiAgICAgICAgYnVkZ2V0aW5nIC0+IGVtYWlsICJJbnZpYSByZXBvcnQgZSBub3RpZmljaGUgdXNhbmRvIgogICAgICAgIHVzZXIgLT4gdGVsZWdyYW1VaSAiRXNlZ3VlIG9wZXJhemlvbmkgdXNhbmRvIgogICAgICAgIHRlbGVncmFtVWkgLT4gdGVsZWdyYW1Cb3QgIkludGVyYWdpc2NlIGNvbiIKCiAgICAgICAgYnVkZ2V0aW5nLmJ1ZGdldGluZ0Rhc2hib2FyZCAtPiBidWRnZXRpbmcuYnVkZ2V0aW5nRGIgIk1vc3RyYSBpIGRhdGkgdXNhbmRvIgogICAgICAgIHVzZXIgLT4gYnVkZ2V0aW5nLmJ1ZGdldGluZ0Rhc2hib2FyZCAiVmlzdWFsaXp6YSBpIGRhdGkgZGVsIGJ1ZGdldCB1c2FuZG8iCiAgICAgICAgdGVsZWdyYW1Cb3QgLT4gYnVkZ2V0aW5nLmJ1ZGdldGluZ0RiICJJbnNlcmlzY2UgbnVvdmUgdHJhbnNhemlvbmkgZSBzZXR0YSBidWRnZXQgaW4iCiAgICAgICAgCgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICBlbGVtZW50ICJQZXJzb24iIHsKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIGZvbnRTaXplIDIyCiAgICAgICAgICAgICAgICBzaGFwZSBQZXJzb24KICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA4NDI3YgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkJhbmsgU3RhZmYiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzk5OTk5OQogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlNvZnR3YXJlIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjMTE2OGJkCiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRXhpc3RpbmcgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJUZWxlZ3JhbSBDbGllbnQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzk5OTk5OQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgc2hhcGUgTW9iaWxlRGV2aWNlUG9ydHJhaXQKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb250YWluZXIiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzQzOGRkNQogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIldlYiBCcm93c2VyIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBXZWJCcm93c2VyCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiRGFzaGJvYXJkIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBXZWJCcm93c2VyCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiVGVsZWdyYW0gQm90IiB7CiAgICAgICAgICAgICAgICBzaGFwZSBNb2JpbGVEZXZpY2VQb3J0cmFpdAogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhdGFiYXNlIiB7CiAgICAgICAgICAgICAgICBzaGFwZSBDeWxpbmRlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkNvbXBvbmVudCIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjODViYmYwCiAgICAgICAgICAgICAgICBjb2xvciAjMDAwMDAwCiAgICAgICAgICAgIH0KICAgICAgICB9CiAgICB9CgogICAgLy8gY29uZmlndXJhdGlvbiB7CiAgICAvLyAgICAgc2NvcGUgc29mdHdhcmVzeXN0ZW0KICAgIC8vIH0KCn0="
+    "structurizr.dsl" : "d29ya3NwYWNlICJMaWZlIFNIIiAiQWxsIHRoZSB0b29scyB0byBlbXBvd2VyIHlvdXIgbGlmZSBpbiBvbmUgcGxhY2UuIiB7CgogICAgIWlkZW50aWZpZXJzIGhpZXJhcmNoaWNhbAoKICAgIG1vZGVsIHsKICAgICAgICB1c2VyID0gcGVyc29uICJVdGVudGUiCgoKICAgICAgICBsaWZlU2ggPSBncm91cCAiTGlmZSBTSCJ7CiAgICAgICAgICAgIGJ1ZGdldGluZyA9IHNvZnR3YXJlU3lzdGVtICJCdWRnZXRpbmciICJHZXN0aW9uZSBkZWxsYSBwYXJ0ZSBmaW5hbnppYXJpYSBkaSBMaWZlU0giewogICAgICAgICAgICAgICAgYnVkRGIgPSBjb250YWluZXIgIkJ1ZGdldGluZyBEYXRhYmFzZSIgIkRhdGFiYXNlIHBlciBsYSBnZXN0aW9uZSBkZWkgZGF0aSBkaSBidWRnZXRpbmcgZSBkZWxsZSBzcGVzZSIgIlBvc3RncmVTUUwiICJEYXRhYmFzZSIKICAgICAgICAgICAgICAgIGJ1ZERhc2hib2FyZCA9IGNvbnRhaW5lciAiQnVkZ2V0aW5nIERhc2hib2FyZCIgIkRhc2hib2FyZCBwZXIgbGEgdmlzdWFsaXp6YXppb25lIGRlaSBkYXRpIGRlbGxlIHNwZXNlIGUgZGVsIGJ1ZGdldCIgCiAgICAgICAgICAgICAgICBidWRSZXBvcnRpbmdFbmdpbmUgPSBjb250YWluZXIgIkJ1ZGdldGluZyBSZXBvcnRpbmcgRW5naW5lIiAiTW90b3JlIGRpIHJlcG9ydGlzdGljYSBwZXIgZ2VuZXJhcmUgcmVwb3J0IGUgYW5hbGlzaSBzdWkgZGF0aSBkaSBidWRnZXRpbmciICJQeXRob24gRmxhc2siICJDb21wb25lbnQiCiAgICAgICAgICAgICAgICBidWRNY3AgPSBjb250YWluZXIgIkJ1ZGdldGluZyBNQ1AiICJTZXJ2ZXIgTUNQIHBlciBsYSBnZXN0aW9uZSBkZWxsZSBpbnRlcmF6aW9uaSBjb24gaWwgbW9kZWxsbyBMTE0iICJQeXRob24gTUNQIFNESyIgIkNvbXBvbmVudCIKICAgICAgICAgICAgfQogICAgICAgICAgICB1c2VySW50ZXJhY3Rpb25Db250cm9sbGVyID0gc29mdHdhcmVTeXN0ZW0gIkludGVyYWN0aW9uIENvbnRyb2xsZXIiICJHZXN0aW9uZSBkZWxsZSB2YXJpZSBpbnRlcmF6aW9uaSBkZWxsJ3V0ZW50ZSJ7CiAgICAgICAgICAgICAgICB0ZWxlZ3JhbUJvdCA9IGNvbnRhaW5lciAiVGVsZWdyYW0gQm90IiAiR2VzdG9yZSBkZWxsZSBpbnRlcmF6aW9uaSBjb24gbCd1dGVudGUgdHJhbWl0ZSBUZWxlZ3JhbSIgIlB5dGhvbiBUZWxlZ3JhbSBCb3QgU0RLIiAiVGVsZWdyYW0gQm90IgogICAgICAgICAgICAgICAgbGxtID0gY29udGFpbmVyICJMTE0iICJNb2RlbGxvIExMTSBwZXIgbCdlbGFib3JhemlvbmUgZGVsIGxpbmd1YWdnaW8gbmF0dXJhbGUiICJTbW9sTE0xLjdCIiAiQ29tcG9uZW50IgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVtYWlsID0gc29mdHdhcmVzeXN0ZW0gIkUtbWFpbCBTeXN0ZW0iICJHZXN0b3JlIGRpIHBvc3RhIGVsZXR0cm9uaWNhIiAiRXhpc3RpbmcgU3lzdGVtIgogICAgICAgICAgICB0ZWxlZ3JhbVVpID0gc29mdHdhcmVTeXN0ZW0gIlRlbGVncmFtIEFwcCIgIkludGVyZmFjY2lhIHV0ZW50ZSBkaSBUZWxlZ3JhbSIgIlRlbGVncmFtIENsaWVudCIKICAgICAgICB9CgogICAgICAgIGVtYWlsIC0+IHVzZXIgIkludmlhIGUtbWFpbCBhIgogICAgICAgIHVzZXIgLT4gdGVsZWdyYW1VaSAiRXNlZ3VlIG9wZXJhemlvbmkgdXNhbmRvIgoKICAgICAgICB1c2VyIC0+IGJ1ZGdldGluZy5idWREYXNoYm9hcmQgIlZpc3VhbGl6emEgZGFzaGJvYXJkIGRpIGJ1ZGdldGluZyB1c2FuZG8iCiAgICAgICAgYnVkZ2V0aW5nLmJ1ZERhc2hib2FyZCAtPiBidWRnZXRpbmcuYnVkRGIgIkxlZ2dlIGkgZGF0aSBkaSBidWRnZXRpbmcgZGEiCiAgICAgICAgYnVkZ2V0aW5nLmJ1ZERhc2hib2FyZCAtPiBidWRnZXRpbmcuYnVkRGIgIlNjcml2ZSBlIGxlZ2dlIGkgZGF0aSBkaSBNZXRhYmFzZSBkYSIKICAgICAgICBidWRnZXRpbmcuYnVkUmVwb3J0aW5nRW5naW5lIC0+IGJ1ZGdldGluZy5idWREYiAiTGVnZ2UgaSBkYXRpIGRpIGJ1ZGdldGluZyBkYSIKICAgICAgICBidWRnZXRpbmcuYnVkUmVwb3J0aW5nRW5naW5lIC0+IGVtYWlsICJJbnZpYSByZXBvcnQgdmlhIGUtbWFpbCB1c2FuZG8iCiAgICAgICAgYnVkZ2V0aW5nLmJ1ZE1jcCAtPiBidWRnZXRpbmcuYnVkRGIgIlNjcml2ZSBpIGRhdGkgc3UgZSBsZWdnZSBpIGRhdGkgZGEiCgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1sYW5kc2NhcGUgIlN5c3RlbUxhbmRzY2FwZSIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dAogICAgICAgIH0KCiAgICAgICAgc3R5bGVzIHsKICAgICAgICAgICAgZWxlbWVudCAiUGVyc29uIiB7CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICBmb250U2l6ZSAyMgogICAgICAgICAgICAgICAgc2hhcGUgUGVyc29uCiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwODQyN2IKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJCYW5rIFN0YWZmIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJTb2Z0d2FyZSBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzExNjhiZAogICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkV4aXN0aW5nIFN5c3RlbSIgewogICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjOTk5OTk5CiAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiVGVsZWdyYW0gQ2xpZW50IiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgIHNoYXBlIE1vYmlsZURldmljZVBvcnRyYWl0CiAgICAgICAgICAgIH0KICAgICAgICAgICAgZWxlbWVudCAiQ29udGFpbmVyIiB7CiAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM0MzhkZDUKICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJXZWIgQnJvd3NlciIgewogICAgICAgICAgICAgICAgc2hhcGUgV2ViQnJvd3NlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIkRhc2hib2FyZCIgewogICAgICAgICAgICAgICAgc2hhcGUgV2ViQnJvd3NlcgogICAgICAgICAgICB9CiAgICAgICAgICAgIGVsZW1lbnQgIlRlbGVncmFtIEJvdCIgewogICAgICAgICAgICAgICAgc2hhcGUgTW9iaWxlRGV2aWNlUG9ydHJhaXQKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJEYXRhYmFzZSIgewogICAgICAgICAgICAgICAgc2hhcGUgQ3lsaW5kZXIKICAgICAgICAgICAgfQogICAgICAgICAgICBlbGVtZW50ICJDb21wb25lbnQiIHsKICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzg1YmJmMAogICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICB9CiAgICAgICAgfQogICAgfQoKICAgIC8vIGNvbmZpZ3VyYXRpb24gewogICAgLy8gICAgIHNjb3BlIHNvZnR3YXJlc3lzdGVtCiAgICAvLyB9Cgp9"
   },
   "views" : {
     "configuration" : {
       "branding" : { },
-      "lastSavedView" : "Container-001",
+      "lastSavedView" : "SystemLandscape",
       "metadataSymbols" : "SquareBrackets",
       "styles" : {
         "elements" : [ {
@@ -198,204 +244,6 @@
       },
       "terminology" : { }
     },
-    "containerViews" : [ {
-      "automaticLayout" : {
-        "applied" : true,
-        "edgeSeparation" : 0,
-        "implementation" : "Graphviz",
-        "nodeSeparation" : 300,
-        "rankDirection" : "TopBottom",
-        "rankSeparation" : 300,
-        "vertices" : false
-      },
-      "dimensions" : {
-        "height" : 2091,
-        "width" : 1620
-      },
-      "elements" : [ {
-        "id" : "1",
-        "x" : 245,
-        "y" : 165
-      }, {
-        "id" : "3",
-        "x" : 220,
-        "y" : 1465
-      }, {
-        "id" : "4",
-        "x" : 220,
-        "y" : 865
-      }, {
-        "id" : "6",
-        "x" : 970,
-        "y" : 865
-      } ],
-      "externalSoftwareSystemBoundariesVisible" : false,
-      "generatedKey" : true,
-      "key" : "Container-001",
-      "order" : 3,
-      "relationships" : [ {
-        "id" : "12"
-      }, {
-        "id" : "13"
-      }, {
-        "id" : "15"
-      } ],
-      "softwareSystemId" : "2"
-    } ],
-    "systemContextViews" : [ {
-      "automaticLayout" : {
-        "applied" : true,
-        "edgeSeparation" : 0,
-        "implementation" : "Graphviz",
-        "nodeSeparation" : 300,
-        "rankDirection" : "TopBottom",
-        "rankSeparation" : 300,
-        "vertices" : false
-      },
-      "dimensions" : {
-        "height" : 2620,
-        "width" : 1182
-      },
-      "elements" : [ {
-        "id" : "1",
-        "x" : 582,
-        "y" : 1985
-      }, {
-        "id" : "2",
-        "x" : 220,
-        "y" : 785
-      }, {
-        "id" : "5",
-        "x" : 220,
-        "y" : 1385
-      }, {
-        "id" : "6",
-        "x" : 220,
-        "y" : 185
-      } ],
-      "enterpriseBoundaryVisible" : true,
-      "generatedKey" : true,
-      "key" : "SystemContext-001",
-      "order" : 2,
-      "relationships" : [ {
-        "id" : "14",
-        "vertices" : [ {
-          "x" : 820,
-          "y" : 1789
-        }, {
-          "x" : 820,
-          "y" : 1385
-        } ]
-      }, {
-        "id" : "16"
-      }, {
-        "id" : "8"
-      }, {
-        "id" : "9"
-      } ],
-      "softwareSystemId" : "2"
-    }, {
-      "automaticLayout" : {
-        "applied" : false,
-        "edgeSeparation" : 0,
-        "implementation" : "Graphviz",
-        "nodeSeparation" : 300,
-        "rankDirection" : "TopBottom",
-        "rankSeparation" : 300,
-        "vertices" : false
-      },
-      "elements" : [ {
-        "id" : "1",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "2",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "5",
-        "x" : 0,
-        "y" : 0
-      } ],
-      "enterpriseBoundaryVisible" : true,
-      "generatedKey" : true,
-      "key" : "SystemContext-002",
-      "order" : 4,
-      "relationships" : [ {
-        "id" : "14"
-      }, {
-        "id" : "8"
-      }, {
-        "id" : "9"
-      } ],
-      "softwareSystemId" : "5"
-    }, {
-      "automaticLayout" : {
-        "applied" : false,
-        "edgeSeparation" : 0,
-        "implementation" : "Graphviz",
-        "nodeSeparation" : 300,
-        "rankDirection" : "TopBottom",
-        "rankSeparation" : 300,
-        "vertices" : false
-      },
-      "elements" : [ {
-        "id" : "1",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "6",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "7",
-        "x" : 0,
-        "y" : 0
-      } ],
-      "enterpriseBoundaryVisible" : true,
-      "generatedKey" : true,
-      "key" : "SystemContext-003",
-      "order" : 5,
-      "relationships" : [ {
-        "id" : "10"
-      }, {
-        "id" : "11"
-      } ],
-      "softwareSystemId" : "7"
-    }, {
-      "automaticLayout" : {
-        "applied" : false,
-        "edgeSeparation" : 0,
-        "implementation" : "Graphviz",
-        "nodeSeparation" : 300,
-        "rankDirection" : "TopBottom",
-        "rankSeparation" : 300,
-        "vertices" : false
-      },
-      "elements" : [ {
-        "id" : "2",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "6",
-        "x" : 0,
-        "y" : 0
-      }, {
-        "id" : "7",
-        "x" : 0,
-        "y" : 0
-      } ],
-      "enterpriseBoundaryVisible" : true,
-      "generatedKey" : true,
-      "key" : "SystemContext-004",
-      "order" : 6,
-      "relationships" : [ {
-        "id" : "11"
-      }, {
-        "id" : "16"
-      } ],
-      "softwareSystemId" : "6"
-    } ],
     "systemLandscapeViews" : [ {
       "automaticLayout" : {
         "applied" : true,
@@ -407,50 +255,48 @@
         "vertices" : false
       },
       "dimensions" : {
-        "height" : 2694,
-        "width" : 1570
+        "height" : 2074,
+        "width" : 2444
       },
       "elements" : [ {
         "id" : "1",
-        "x" : 970,
-        "y" : 785
+        "x" : 1198,
+        "y" : 165
       }, {
         "id" : "2",
-        "x" : 220,
-        "y" : 1485
-      }, {
-        "id" : "5",
-        "x" : 220,
-        "y" : 2085
-      }, {
-        "id" : "6",
-        "x" : 220,
-        "y" : 835
+        "x" : 1173,
+        "y" : 865
       }, {
         "id" : "7",
-        "x" : 220,
-        "y" : 185
+        "x" : 423,
+        "y" : 865
+      }, {
+        "id" : "10",
+        "x" : 798,
+        "y" : 1465
+      }, {
+        "id" : "11",
+        "x" : 1923,
+        "y" : 865
       } ],
       "enterpriseBoundaryVisible" : true,
-      "generatedKey" : true,
-      "key" : "SystemLandscape-001",
+      "key" : "SystemLandscape",
       "order" : 1,
       "relationships" : [ {
-        "id" : "10"
-      }, {
-        "id" : "11"
-      }, {
-        "id" : "14"
-      }, {
-        "id" : "16"
-      }, {
-        "id" : "8",
+        "id" : "12",
         "vertices" : [ {
-          "x" : 820,
-          "y" : 1785
+          "x" : 273,
+          "y" : 1165
+        }, {
+          "x" : 273,
+          "y" : 761
         } ]
       }, {
-        "id" : "9"
+        "id" : "13"
+      }, {
+        "id" : "15"
+      }, {
+        "id" : "20"
       } ]
     } ]
   }

@@ -5,29 +5,40 @@ workspace "Life SH" "All the tools to empower your life in one place." {
     model {
         user = person "Utente"
 
+
         lifeSh = group "Life SH"{
-            budgeting = softwareSystem "Budgeting System" "Gestione del budget personale" {
-                budgetingDb = container "Budgeting Database" "Database per la gestione dei dati del budget" "PostgreSQL" "Database"
-                budgetingDashboard = container "Dashboard Finanza" "Dashboard per la visualizzazione e gestione del budget" "Metabase" "Dashboard"
+            budgeting = softwareSystem "Budgeting" "Gestione della parte finanziaria di LifeSH"{
+                budDb = container "Budgeting Database" "Database per la gestione dei dati di budgeting e delle spese" "PostgreSQL" "Database"
+                budDashboard = container "Budgeting Dashboard" "Dashboard per la visualizzazione dei dati delle spese e del budget" 
+                budReportingEngine = container "Budgeting Reporting Engine" "Motore di reportistica per generare report e analisi sui dati di budgeting" "Python Flask" "Component"
+                budMcp = container "Budgeting MCP" "Server MCP per la gestione delle interazioni con il modello LLM" "Python MCP SDK" "Component"
+            }
+            userInteractionController = softwareSystem "Interaction Controller" "Gestione delle varie interazioni dell'utente"{
+                telegramBot = container "Telegram Bot" "Gestore delle interazioni con l'utente tramite Telegram" "Python Telegram Bot SDK" "Telegram Bot"
+                llm = container "LLM" "Modello LLM per l'elaborazione del linguaggio naturale" "SmolLM1.7B" "Component"
             }
             email = softwaresystem "E-mail System" "Gestore di posta elettronica" "Existing System"
-            telegramBot = softwareSystem "Telegram Bot" "Permette all'utente di interfacciarsi con LifeSH"
             telegramUi = softwareSystem "Telegram App" "Interfaccia utente di Telegram" "Telegram Client"
         }
 
         email -> user "Invia e-mail a"
-        budgeting -> email "Invia report e notifiche usando"
         user -> telegramUi "Esegue operazioni usando"
-        telegramUi -> telegramBot "Interagisce con"
 
-        budgeting.budgetingDashboard -> budgeting.budgetingDb "Mostra i dati usando"
-        user -> budgeting.budgetingDashboard "Visualizza i dati del budget usando"
-        telegramBot -> budgeting.budgetingDb "Inserisce nuove transazioni e setta budget in"
-        
+        user -> budgeting.budDashboard "Visualizza dashboard di budgeting usando"
+        budgeting.budDashboard -> budgeting.budDb "Legge i dati di budgeting da"
+        budgeting.budDashboard -> budgeting.budDb "Scrive e legge i dati di Metabase da"
+        budgeting.budReportingEngine -> budgeting.budDb "Legge i dati di budgeting da"
+        budgeting.budReportingEngine -> email "Invia report via e-mail usando"
+        budgeting.budMcp -> budgeting.budDb "Scrive i dati su e legge i dati da"
 
     }
 
     views {
+        systemlandscape "SystemLandscape" {
+            include *
+            autoLayout
+        }
+
         styles {
             element "Person" {
                 color #ffffff
